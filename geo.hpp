@@ -30,7 +30,7 @@ namespace geo {
     double blh2x(double latitude, double longitude, double height);
     double blh2y(double latitude, double longitude, double height);
     double blh2z(double latitude, double longitude, double height);
-    double *blh2ecef(double *latitude, double *longitude, double *height);
+    void blh2ecef(double *latitude, double *longitude, double *height, double *ecef);
     
     // ECEF(x, y, z) to BLH
     double ecef2lat(double x, double y, double z);

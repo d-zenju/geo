@@ -43,12 +43,10 @@ double geo::blh2z(double latitude, double longitude, double height) {
 
 
 // 緯度軽度高度からECEFに変換する
-double *geo::blh2ecef(double *latitude, double *longitude, double *height) {
-    double *ecef = new double[3];
+void geo::blh2ecef(double *latitude, double *longitude, double *height, double *ecef) {
     ecef[0] = blh2x(*latitude, *longitude, *height);
     ecef[1] = blh2y(*latitude, *longitude, *height);
     ecef[2] = blh2z(*latitude, *longitude, *height);
-    return ecef;
 }
 
 
@@ -80,25 +78,24 @@ double geo::ecef2hgt(double x, double y, double z) {
 
 // ECEF(x, y, z) to ENU(x', y', z')
 void geo::ecef2enu(double *own, double *other, double *enu) {
-    double p[3];
+    double p[3] = {0.0, 0.0, 0.0};
     p[0] = other[0] - own[0];
     p[1] = other[1] - own[1];
     p[2] = other[2] - own[2];
     
-    double rotx[3][3];
-    double roty[3][3];
-    double rotz[3][3];
+    double rot0[3][3] = {0.0, 0.0, 0.0};
+    double rot1[3][3] = {0.0, 0.0, 0.0};
+    double rot2[3][3] = {0.0, 0.0, 0.0};
     
-    Rz(90.0 * M_PI / 180.0, rotx);
+    Rz(90.0 * M_PI / 180.0, rot0);
     Ry((90.0 - ecef2lat(own[0], own[1], own[2]))\
-            * M_PI / 180.0, roty);
-    Rz(ecef2lon(own[0], own[1]) * M_PI / 180.0, rotz);
+            * M_PI / 180.0, rot1);
+    Rz(ecef2lon(own[0], own[1]) * M_PI / 180.0, rot2);
     
-    double m[3][3];
-    double r[3][3];
-    MM(rotx, roty, m);
-    MM(m, rotz, r);
-    
+    double m[3][3] = {0.0, 0.0, 0.0};
+    double r[3][3] = {0.0, 0.0, 0.0};
+    MM(rot0, rot1, m);
+    MM(m, rot2, r);
     MV(r, p, enu);
 }
 
