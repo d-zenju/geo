@@ -44,6 +44,8 @@ double geo::blh2z(double latitude, double longitude, double height) {
 
 // 緯度軽度高度からECEFに変換する
 void geo::blh2ecef(double *latitude, double *longitude, double *height, double *ecef) {
+    for (int i = 0; i < 3; ++i)
+        ecef[i] = 0.0;
     ecef[0] = blh2x(*latitude, *longitude, *height);
     ecef[1] = blh2y(*latitude, *longitude, *height);
     ecef[2] = blh2z(*latitude, *longitude, *height);
@@ -78,6 +80,9 @@ double geo::ecef2hgt(double x, double y, double z) {
 
 // ECEF(x, y, z) to ENU(x', y', z')
 void geo::ecef2enu(double *own, double *other, double *enu) {
+    for (int i = 0; i < 3; ++i)
+        enu[i] = 0.0;
+    
     double p[3] = {0.0, 0.0, 0.0};
     p[0] = other[0] - own[0];
     p[1] = other[1] - own[1];

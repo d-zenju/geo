@@ -59,22 +59,16 @@ int main(int argc, const char * argv[]) {
     };
     
     
-    double ownECEF[3] = {0.0, 0.0, 0.0};
-    double otherECEF[3] = {0.0, 0.0, 0.0};
-    double enu[3] = {0, 0, 0};
+    double ownECEF[3];
+    double otherECEF[3];
+    double enu[3];
     
     geo::blh2ecef(&ownLat, &ownLon, &ownHgt, ownECEF);
     printf("own: [%f,%f,%f], [%f,%f,%f]\n"
            , ownLat, ownLon, ownHgt, ownECEF[0], ownECEF[1], ownECEF[2]);
     
     int max = sizeof(other) / sizeof(other[0]);
-    //int max = 2;
     for (int i = 0; i < max; ++i) {
-        for (int j = 0; j < 3; ++j) {
-            otherECEF[j] = 0.0;
-            enu[j] = 0.0;
-        }
-        
         printf("\nNo. %d : %d\n", i, int(other[i][0]));
         
         geo::blh2ecef(&other[i][1], &other[i][2], &other[i][3], otherECEF);
@@ -84,19 +78,5 @@ int main(int argc, const char * argv[]) {
         printf("dist: %f \n", geo::distance(enu[0], enu[1]));
     }
     
-    
-    /*
-    double *own = geo::blh2ecef(&ownLat, &ownLon, &ownHgt);
-    double *other = geo::blh2ecef(&otherLat, &otherLon, &otherHgt);
-    
-    double enu[3];
-    geo::ecef2enu(own, other, enu);
-    
-    printf("%f %f %f\n", other[0], other[1], other[2]);
-    printf("%f %f %f\n", enu[0], enu[1], enu[2]);
-    
-    printf("angle: %f\n", geo::angle(enu[0], enu[1]));
-    printf("dist: %f \n", geo::distance(enu[0], enu[1]));
-    */
     return 0;
 }
