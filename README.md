@@ -56,12 +56,5 @@ double geoid : ジオイド高[m]
 *geo.hpp*と*geo.cpp*を同じフォルダに入れておき
 実装したいプログラムに*geo.hpp*をインクルードしてください。
 
-## Contribution
-
 ## Licence
-
 [MIT](https://github.com/tcnksm/tool/blob/master/LICENCE)
-
-## Author
-
-[tcnksm](https://github.com/tcnksm)
